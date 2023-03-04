@@ -1,0 +1,21 @@
+方法名： matchAndRewrite()
+输入：
+	要转换的Operation:DSP_VEUSetCtrl0
+步骤：
+	通过该Operation获取到其操作数。
+	声明一个整数变量result,用于保存最终操作的结果
+	for every operand do
+		按照寄存器的有效位置对result进行移位运算。
+	end for
+	使用result构造一个Value类型（在IR中是一个SSA) vResult
+	LLVM_setCR(CTRL0,vResult)
+	在该IR中删除DSP_VEUSetCtrl0节点
+
+
+class DSP_VEUAsmOp<string me=mnem,list<int> operand, list<OpTrait> traits = ["SideEffect"]> : Op<DSP_Dialect, mnem, traits>
+
+def DSP_VEUAddiiiOp : DSP_VEUAsmOp<"vmadd int int int",operands>;
+
+def DSP_VEUAddcccOp : DSP_VEUAsmOp<"vmadd char char char",operands>;
+
+def DSP_VEUAddsssOp : DSP_VEUAsmOp<"vmadd short short short",operands>;
