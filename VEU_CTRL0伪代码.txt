@@ -19,3 +19,21 @@ def DSP_VEUAddiiiOp : DSP_VEUAsmOp<"vmadd int int int",operands>;
 def DSP_VEUAddcccOp : DSP_VEUAsmOp<"vmadd char char char",operands>;
 
 def DSP_VEUAddsssOp : DSP_VEUAsmOp<"vmadd short short short",operands>;
+
+func @test() {
+	dsp.veu_set_ctrl0(0,1,0,0)
+
+	...
+	dsp.veu_submulccc(0,1,2,3)
+
+	dsp.return 
+}
+
+class DSP_Op<string mnemonic, list<Trait> traits = []> :
+  Op<DSP_Dialect, mnemonic, traits> {}
+
+def DSPDma1DTransferInOp : DSP_Op<"dma_1d_transfer_in">,
+    Arguments<(ins I8Attr:$priority, I8Attr:$dataType, I64Attr:$ddr_addr, I64Attr:$trans_len, I8Attr:$vmem_array_num, I8Attr:$is_wait)>,
+                   Results<(outs I1Attr:$status)> {
+ ...
+}
